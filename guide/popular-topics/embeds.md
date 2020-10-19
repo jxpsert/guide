@@ -195,7 +195,7 @@ channel.send(exampleEmbed);
 </branch>
 
 ::: warning
-If the images doesn't display inside the embed but outside of it, double check your syntax to make sure it's as shown above.
+If the image doesn't display inside the embed but outside of it, double check your syntax to make sure it's as shown above.
 :::
 
 ## Using an embed object
