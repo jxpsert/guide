@@ -35,7 +35,7 @@ const config = {
 				link: '/commando/',
 			},
 			{
-				text: 'Discord.js Documentation',
+				text: 'Discord.js Documentatie',
 				link: 'https://discord.js.org/#/docs/main/stable/general/welcome',
 			},
 		],

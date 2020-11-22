@@ -1,54 +1,54 @@
-# Understanding async/await
+# Async/await begrijpen
 
-If you aren't very familiar with ECMAScript 2017, you may not know about async/await. It's a useful way to handle Promises in a hoisted manner. In addition, it looks cleaner, increases overall readability, and is slightly faster.
+Als je niet bekend bent met ECMAScript 2017, zal je waarschijnlijk niet bekend zijn met async/await. Het is een handige manier om Promises te verwerken. Daarnaast ziet het er beter uit, is het beter leesbaar en is het ook iets sneller.
 
-## How do Promises work?
+## Hoe werken Promises?
 
-Before we can get into async/await, you should know what Promises are and how they work, because async/await is just a way to handle Promises. If you know what Promises are and how to deal with them, then you can skip this part. 
+Voordat we kunnen beginnen met async/await, moet je weten wat Promises zijn en hoe ze werken. Als je dit al weet, kan je dit onderdeel overslaan.
 
-Promises are a way to handle asynchronous tasks in Javascript; they are the newer alternative to callbacks. A Promise has a lot of similarities to a progress bar; Promises represent an ongoing process that has not yet finished. A good example for that is a request to a server (e.g discord.js sends requests to Discord's API).
+Promises zijn een manier om asynchrone taken uit te voeren in Javascript; ze zijn een nieuwe alternatief tegenover callbacks. Een Promise lijkt een beetje op een laadbalk; ze vertegenwoordigen een proces dat nog niet klaar is. Een goed voorbeeld daarvan is een verzoek aan een server. (b.v. discord.js stuurt verzoeken naar Discord's API).
 
-A Promise can have 3 states; pending, resolved, and rejected
+Een Promise kan zich in 3 staten bevinden; *pending*, *resolved*, en *rejected*
 
-The **pending** state means that the Promise still is ongoing and neither resolved nor rejected.
-The **resolved** state means that the Promise is done and was executed without any errors.
-The **rejected** state means that the Promise encountered an error and could not be executed correctly.
+De staat **pending** betekent dat de Promise nog bezig is, en dus niet gefaald of gelukt is.
+De staat **resolved** betekent dat de Promise klaar is en zonder foutmeldingen is afgerond.
+De staat **rejected** betekent dat de Promise een foutmelding heeft veroorzaakt en niet goed kon worden afgerond.
 
-One important thing to know is that a Promise can only have one state at a time; it can never be pending and resolved, rejected and resolved, or pending and rejected. You may be asking "How would that look in code?". Here is a small example:
+Een belangrijk onderdeel om te onthouden is dat een Promise altijd maar in 1 staat kan zijn; hij kan nooit pending en resolved zijn, rejected en resolved, of pending en rejected. Je vraagt je misschien af "Hoe ziet dat eruit in code?". Hier is een klein voorbeeld:
 
 ::: tip
-ES6 code is being used in this example. If you do not know what that is, you should read up on that [here](/additional-info/es6-syntax.md).
+Deze code gebruikt ES6. Als je niet weet wat dat is, kan je [hier](/additional-info/es6-syntax.md) meer lezen.
 :::
 
 ```js
-function deleteMessages(amount) {
+function deleteMessages(aantal) {
 	return new Promise(resolve => {
-		if (amount > 10) throw new Error('You can\'t delete more than 10 Messages at a time.');
-		setTimeout(() => resolve('Deleted 10 messages.'), 2000);
+		if (aantal > 10) throw new Error('Je kan niet meer dan 10 berichten verwijderen.');
+		setTimeout(() => resolve('10 berichten verwijderd.'), 2000);
 	});
 }
 
 deleteMessages(5).then(value => {
-	// `deleteMessages` is complete and has not encountered any errors
-	// the resolved value will be the string "Deleted 10 messages"
+	// `deleteMessages` is compleet en heeft geen foutmeldingen veroorzaakt
+	// 'value' zal de string "10 berichten verwijderd" zijn.
 }).catch(error => {
-	// `deleteMessages` encountered an error
-	// the error will be an Error Object
+	// `deleteMessages` heeft een foutmelding veroorzaakt
+	// 'error' zal een Error object zijn
 });
 ```
 
-In this scenario, the `deleteMessages` function returns a Promise. The `.then()` method will trigger if the Promise was resolved, and the `.catch()` method if the Promise was rejected. But with our function, we resolve the Promise after 2 seconds with the String "Deleted 10 messages.", so the `.catch()` method will never be executed. You can also pass the `.catch()` function as the second parameter of `.then()`.
+In dit scenario, retourneert de `deleteMessages` functie een Promise. De methode `.then()` zal afgaan als de Promise de staat 'resolved' bereikt, en de `.catch()` methode als bij de 'rejected' staat. Maar, met onze functie resolven we de Promise na 2 seconden met de string "10 berichten verwijderd.", dus de `.catch()` methode zal nooit afgaan. Je kan de `.catch()` functie ook als tweede parameter van `.then()` gebruiken.
 
-## How to implement async/await
+## Hoe implementeer je async/await?
 
-### Theory
+### Theorie
 
-The following information is important to know before working with async/await. You can only use the `await` keyword inside a function that is declared as `async` (you put the `async` keyword before the `function` keyword or before the parameters when using a callback function). 
+Het volgende is belangrijk om te weten als je gaat werken met async/await. Je kan het `await` trefwoord alleen gebruiken in een functie die gedeclareerd is als `async` (je zet het `async` trefwoord voor het `function` trefwoord, of voor de parameters als je een callback functie gebruikt). 
 
-A simple example would be:
+Een simpel voorbeeld zou zijn:
 
 ```js
-async function declaredAsAsync() {
+async function gedeclareerdAlsAsync() {
 	// code
 }
 ```
@@ -56,12 +56,12 @@ async function declaredAsAsync() {
 or
 
 ```js 
-const declaredAsAsync = async () => {
+const gedeclareerdAlsAsync = async () => {
 	// code
 };
 ```
 
-You can use that as well if you use the arrow function as an event listener.
+Je kan die laatste ook gebruiken bij een pijlfunctie;
 
 ```js
 client.on('event', async (first, last) => {
@@ -69,11 +69,11 @@ client.on('event', async (first, last) => {
 });
 ```
 
-An important thing to know is that a function declared as `async` will always return a Promise. In addition to this, if you return something, the Promise will resolve with that value, and if you throw an error, it will reject the Promise with that error.
+Iets belangrijks om te weten is dat een functie gedeclareerd als `async` altijd een Promise zal retourneren. Hiernaast zal, als je iets retourneert, de Promise hiermee resolven. Als je een foutmelding gooit, zal deze rejecten met deze foutmelding.
 
-### Execution with discord.js code
+### Gebruik met discord.js code
 
-After knowing how Promises work and what they are for, as well as about the theory, let's look at an example in which we'll handle multiple Promises. Let's say you want to react with letters (regional indicators) in a certain order. For this example, you will take the basic template for a discord.js bot with some ES6 adjustments.
+Nu dat je weet hoe Promises werken, laten we gaan kijken naar een voorbeeld waarin we meerdere Promises zullen verwerken. Stel dat je wilt reageren met letters (regionale indicatoren) in een bepaalde volgorde. In dit voorbeeld zal je het basissjabloon voor een discord.js bot met een paar ES6 wijzigingen gebruiken.
 
 ```js
 const Discord = require('discord.js');
@@ -82,50 +82,49 @@ const client = new Discord.Client();
 const prefix = '?';
 
 client.once('ready', () => {
-	console.log('I am ready!');
+	console.log('Klaar voor gebruik');
 });
 
 client.on('message', message => {
-	if (message.content === `${prefix}react`) {
-		// code inside here
+	if (message.content === `${prefix}reageer`) {
+		// Code hier
 	}
 });
 
-client.login('tokeninhere');
+client.login('token');
 ```
 
-So now we need to put the code in. If you don't know how Node.js asynchronous execution works, you would probably try something like this:
+Dus nu moeten we de code invoeren. Als je niet weet hoe Node.js asynchrone executie werkt, zou je waarschijnlijk zoiets proberen:
 
 ```js
 client.on('message', message => {
-	if (message.content === `${prefix}react`) {
+	if (message.content === `${prefix}reageer`) {
 		message.react('🇦');
 		message.react('🇧');
 		message.react('🇨');
 	}
 });
 ```
-
-But since all of these react methods are started at the same time, it would just be a race to which server request finished first, so there would be no guarantee that it would react in the order you wanted it to. In order to make sure it reacts in order (a, b, c), we need to use the `.then()` callback from the Promises that these methods return. As a result the code we want would mostly look like this:
+Maar omdat al deze `react()` methodes op hetzelfde moment starten, wordt het een race om welk verzoek het snelste afgehandeld wordt, dus is er geen garantie dat de reacties worden toegevoegd in deze volgorde. Om ervoor te zorgen dat het in de goede volgorde wordt uitgevoerd, moeten we de `.then()` callback gebruiken. Als resultaat zou de code er ongeveer zo uitzien:
 
 ```js
 client.on('message', message => {
-	if (message.content === `${prefix}react`) {
+	if (message.content === `${prefix}reageer`) {
 		message.react('🇦')
 			.then(() => message.react('🇧'))
 			.then(() => message.react('🇨'))
 			.catch(error => {
-				// handle failure of any Promise rejection inside here
+				// Als er iets fout gaat, wordt dat hier verwerkt
 			});
 	}
 });
 ```
 
-In this piece of code, we [chain resolve](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then#Chaining) Promises with each other, and if one of the Promises gets rejected, the function we passed to `.catch()` get called. So let's look at how the same code would look with async/await.
+In deze code [chain resolven](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then#Chaining) Promises met elkaar, en als een van de Promises gereject wordt, wordt de functie die we in `.catch()` gezet hebben gebruikt. Laten we kijken hoe dit eruit ziet met async/await.
 
 ```js
 client.on('message', async message => {
-	if (message.content === `${prefix}react`) {
+	if (message.content === `${prefix}reageer`) {
 		await message.react('🇦');
 		await message.react('🇧');
 		await message.react('🇨');
@@ -133,37 +132,37 @@ client.on('message', async message => {
 });
 ```
 
-That would mostly be the same code with async/await, but how do we catch Promise rejections now since we won't use `.catch()` anymore? That is also a useful feature with async/await; the error will be thrown if you await it so you can just wrap the awaited Promises inside a try/catch and you're good to go. 
+Dat is ongeveer dezelfde code, maar hoe pakken we Promise rejections aan zonder `.catch()`? Dat is ook een handige eigenschap van async/await. De foutmelding zal gegooid worden als je het await, dus je kan gewoon de Promises in een `try`/`catch` blok zetten.
 
 ```js
 client.on('message', async message => {
-	if (message.content === `${prefix}react`) {
+	if (message.content === `${prefix}reageer`) {
 		try {
 			await message.react('🇦');
 			await message.react('🇧');
 			await message.react('🇨');
 		} catch (error) {
-			// handle failure of any Promise rejection inside here
+			// Als er iets fout gaat, wordt dat hier verwerkt
 		}
 	}
 });
 ```
 
-This looks clean and is also nice and easy to read.
+Dit ziet er mooi uit, en is ook makkelijk te lezen.
 
-So you may be asking, "How would I get the value the Promise resolved with?".
+Je vraagt je misschien af, "hoe krijg ik de waarde waarmee de Promise ge-resolved is?"
 
-Well let's look at an example where you want to delete a sent message.
+Laten we kijken naar een voorbeeld waar je een verzonden bericht wilt verwijderen.
 
 <branch version="11.x">
 
 ```js
 client.on('message', message => {
-	if (message.content === `${prefix}delete`) {
-		message.channel.send('this message will be deleted')
+	if (message.content === `${prefix}verwijder`) {
+		message.channel.send('Dit bericht zal na 10 seconden verwijderd worden')
 			.then(sentMessage => sentMessage.delete(10000))
 			.catch(error => {
-				// handle error
+				// Foutmelding verwerken
 			});
 	}
 });
@@ -174,29 +173,29 @@ client.on('message', message => {
 
 ```js
 client.on('message', message => {
-	if (message.content === `${prefix}delete`) {
-		message.channel.send('this message will be deleted')
+	if (message.content === `${prefix}verwijder`) {
+		message.channel.send('Dit bericht zal na 10 seconden verwijderd worden')
 			.then(sentMessage => sentMessage.delete({ timeout: 10000 }))
 			.catch(error => {
-				// handle error
+				// Foutmelding verwerken
 			});
 	}
 });
 ```
 
 </branch>
-The return value of a `.send()` is a Promise what resolves with the sent Message object, but how would the same code with async/await look like?
+De geretourneerde waarde van `.send()` is een Promise dat resolvet naar een Message object. Maar hoe zou dit eruit zien in async/await?
 
 <branch version="11.x">
 
 ```js
 client.on('message', async message => {
-	if (message.content === `${prefix}delete`) {
+	if (message.content === `${prefix}verwijder`) {
 		try {
-			const sentMessage = await message.channel.send('This message will be deleted in 10 seconds.');
+			const sentMessage = await message.channel.send('Dit bericht zal na 10 seconden verwijderd worden.');
 			await sentMessage.delete(10000);
 		} catch (error) {
-			// handle error
+			// Foutmelding verwerken
 		}
 	}
 });
@@ -207,12 +206,12 @@ client.on('message', async message => {
 
 ```js
 client.on('message', async message => {
-	if (message.content === `${prefix}delete`) {
+	if (message.content === `${prefix}verwijder`) {
 		try {
-			const sentMessage = await message.channel.send('This message will be deleted in 10 seconds.');
+			const sentMessage = await message.channel.send('Dit bericht zal na 10 seconden verwijderd worden.');
 			await sentMessage.delete({ timeout: 10000 });
 		} catch (error) {
-			// handle error
+			// Foutmelding verwerken
 		}
 	}
 });
@@ -220,4 +219,4 @@ client.on('message', async message => {
 
 </branch>
 
-With async/await you can just assign the awaited function to a variable that will represent the returned value. Now you know how you use async/await.
+Met async/await kan je gewoon de functie in een variabele zetten, dat de geretourneerde waarde zal vertegenwoordigen. Nu weet je hoe je async/await moet gebruiken.

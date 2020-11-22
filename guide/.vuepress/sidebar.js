@@ -8,14 +8,14 @@ module.exports = {
 			],
 		},
 		{
-			title: 'Getting Started',
+			title: 'Beginnen',
 			children: [
 				'/commando/',
 				'/commando/first-command',
 			],
 		},
 		{
-			title: 'Extra Command Info',
+			title: 'Extra Commando informatie',
 			children: [
 				'/commando/throttling',
 				'/commando/guild-only',
@@ -30,7 +30,7 @@ module.exports = {
 			],
 		},
 		{
-			title: 'Additional Information',
+			title: 'Additionele informatie',
 			children: [
 				'/commando/client-values',
 				'/commando/unknown-command-response',
@@ -46,7 +46,7 @@ module.exports = {
 			],
 		},
 		{
-			title: 'Installations & Preparations',
+			title: 'Installaties & voorbereidingen',
 			children: [
 				'/preparations/',
 				'/preparations/setting-up-a-linter',
@@ -55,7 +55,7 @@ module.exports = {
 			],
 		},
 		{
-			title: 'Creating Your Bot',
+			title: 'Je bot maken',
 			children: [
 				'/creating-your-bot/',
 				'/creating-your-bot/configuration-files',
@@ -64,7 +64,7 @@ module.exports = {
 			],
 		},
 		{
-			title: 'Command Handler',
+			title: 'Commandoverwerking',
 			children: [
 				'/command-handling/',
 				'/command-handling/dynamic-commands',
@@ -72,7 +72,7 @@ module.exports = {
 			],
 		},
 		{
-			title: 'Popular Topics',
+			title: 'Populaire onderwerpen',
 			children: [
 				'/popular-topics/embeds',
 				'/popular-topics/errors',
@@ -90,7 +90,7 @@ module.exports = {
 			],
 		},
 		{
-			title: 'Miscellaneous',
+			title: 'Overig',
 			children: [
 				'/miscellaneous/parsing-mention-arguments',
 				'/miscellaneous/useful-packages',
@@ -119,7 +119,7 @@ module.exports = {
 			],
 		},
 		{
-			title: 'Voice',
+			title: 'Audio',
 			children: [
 				'/voice/',
 				'/voice/understanding-voice',
@@ -130,14 +130,14 @@ module.exports = {
 			],
 		},
 		{
-			title: 'Improving Your Dev Environment',
+			title: 'Je ontwikkelingssfeer verbeteren',
 			children: [
 				'/improving-dev-environment/pm2',
 				'/improving-dev-environment/package-json-scripts',
 			],
 		},
 		{
-			title: 'Additional Information',
+			title: 'Additionele informatie',
 			children: [
 				'/additional-info/notation',
 				'/additional-info/es6-syntax',
