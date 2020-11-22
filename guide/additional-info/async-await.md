@@ -120,7 +120,7 @@ client.on('message', message => {
 });
 ```
 
-In deze code [chain resolven](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then#Chaining) Promises met elkaar, en als een van de Promises gereject wordt, wordt de functie die we in `.catch()` gezet hebben gebruikt. Laten we kijken hoe dit eruit ziet met async/await.
+In deze code [chain resolven](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/then#Chaining) we Promises met elkaar, en als een van de Promises gereject wordt, wordt de functie die we in `.catch()` gezet hebben gebruikt. Laten we kijken hoe dit eruit ziet met async/await.
 
 ```js
 client.on('message', async message => {
